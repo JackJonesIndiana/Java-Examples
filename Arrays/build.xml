@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+
+<project name="Arrays" default="main" basedir=".">
+
+	<property name="src.dir" value="src"/>
+	<property name="build.dir" value="build"/>
+
+	<target name="clean" description="Cleans the build dir">
+
+		<delete dir="${build.dir}">
+			<include name="**/*" />
+		</delete>
+
+	</target> 
+
+
+	<target name="build" description="Compile Java files">
+
+		<mkdir dir="${build.dir}/classes" />
+
+		<javac srcdir="${src.dir}" destdir="${build.dir}/classes" />
+
+	</target> 
+
+	<target name="jar" description="Create a jar file" depends="build">
+
+		<mkdir dir="${build.dir}/jar"/>
+
+		<jar basedir="${build.dir}/classes" destfile="${build.dir}/jar/Arrays.jar" >
+
+			<manifest>
+				<attribute name="Main-Class"  value="MultidimensionalArrays" />
+			</manifest> 
+
+		</jar>
+
+	</target>
+
+
+	<target name="run" description="Executes the code" depends="jar">
+
+		<java jar="${build.dir}/jar/Arrays.jar" fork="true" failonerror="true">
+			<arg value="2"/>
+		</java>
+
+
+	</target>
+
+	<target name="clean-build" description="Clean and build" depends="clean, jar" />
+	<target name="main" description="Builds, packages and runs" depends="clean, run" />
+
+
+</project>
